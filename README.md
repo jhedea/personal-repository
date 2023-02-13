@@ -1,2 +1,2 @@
-# personal-repository
-Repository for personal projects
+# Twitter bot
+Bot used to tweet certain books based on the current date
