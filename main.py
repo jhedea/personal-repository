@@ -1,22 +1,16 @@
-import tweepy
+from asyncore import dispatcher
 
-from other import keys
+from telegram.ext import Updater, CommandHandler
 
-
-def api():
-    auth = tweepy.OAuthHandler(keys.api_key, keys.api_secret)
-    auth.set_access_token(keys.access_token, keys.access_token_secret)
-    return tweepy.API(auth)
+from bot import start_command
 
 
-def tweet(api: tweepy.API, message: str, image_path=None):
-    if image_path:
-        api.update_status_with_media(message, image_path)
-    else:
-        api.update_status(message)
-    print('successful tweet')
+def main():
+    updater = Updater(token="YOUR_API_TOKEN", use_context=True)
+    dispatcher = updater.dispatcher
 
+    start_handler = CommandHandler('start', start_command)
+    dispatcher.add_handler(start_handler)
 
-if __name__ == '__main__':
-    api = api()
-    tweet(api, 'This is a test tweet')
+    updater.start_polling()
+    updater.idle()
