@@ -41,7 +41,7 @@ def handle_response(text: str) -> str:
         return "Hi"
     if "morometii" in processed:
         return "Este scris de Marin Preda"
-    if "maora cu noroc" in processed:
+    if "moara cu noroc" in processed:
         return "ioan slavici"
     return "I am sorry, can you repeat?"
 
