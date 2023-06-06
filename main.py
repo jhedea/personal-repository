@@ -18,7 +18,7 @@ def main():
 
 
 """
-token: Final = "6061354792:AAF7UHyG5gboTAKVU8aX8Vw9W9xUu1Bikaw"
+token: Final = ">>>"
 
 bot_username: Final = "@ioan_bot_bot"
 
