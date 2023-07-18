@@ -6,3 +6,7 @@
 
 -python-telegram-bot
 
+# How to run it
+- Install MySQL 
+- Add the Docker Container : docker run -d --name authors_list -e MYSQL_ROOT_PASSWORD=12345 -p 3307:3306 mysql
+- Run main.py
