@@ -1,11 +1,10 @@
-from asyncore import dispatcher
-
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from typing import Final
 
 from googlesearch import search
 import mysql.connector
+
 """
 
 
@@ -50,7 +49,9 @@ authors = [
     ("F. Scott Fitzgerald", "https://example.com/f-scott-fitzgerald"),
     ("Virginia Woolf", "https://example.com/virginia-woolf"),
     ("Ernest Hemingway", "https://example.com/ernest-hemingway"),
-    ("George Orwell", "https://example.com/george-orwell")
+    ("George Orwell", "https://example.com/george-orwell"),
+    ("Fyodor Dostoevsky", "https://example.com/fyodor-dostoevsky")
+
 ]
 
 for author in authors:
@@ -69,8 +70,6 @@ for author in authors:
 
 cnx.commit()
 
-
-
 cursor = cnx.cursor()
 query_insert = "INSERT INTO books (author_name, book_title) VALUES (%s, %s)"
 
@@ -82,7 +81,14 @@ books = [
     ("William Shakespeare", "Romeo and Juliet"),
     ("William Shakespeare", "Hamlet"),
     ("Mark Twain", "Adventures of Huckleberry Finn"),
-    ("Mark Twain", "The Adventures of Tom Sawyer")
+    ("Mark Twain", "The Adventures of Tom Sawyer"),
+    ("Leo Tolstoy", "War and Peace"),
+    ("Leo Tolstoy", "Anna Karenina"),
+    ("Fyodor Dostoevsky", "Crime and Punishment"),
+    ("Fyodor Dostoevsky", "The Brothers Karamazov"),
+    ("Fyodor Dostoevsky", "The Idiot"),
+    ("Fyodor Dostoevsky", "Devils")
+
     # Add more book records as needed
 ]
 
@@ -91,12 +97,11 @@ for book in books:
 
 cnx.commit()
 
+greeting: str = "Hello! Can can I help you?"
+
+outlining: str = "Sure! Here is the most searched result : "
 
 
-
-greeting : str = "Hello! Can can I help you?"
-
-outlining : str = "Sure! Here is the most searched result : "
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cnx = mysql.connector.connect(
         host="localhost",
@@ -111,6 +116,7 @@ async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("I am a nice geeky bot. Tell me something to start the conversation")
+
 
 def handle_user_input(text: str) -> str:
     cursor = cnx.cursor()
@@ -163,8 +169,6 @@ async def error(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-
-
     app = Application.builder().token(token).build()
 
     app.add_handler(CommandHandler('start', start_command))
@@ -176,4 +180,3 @@ if __name__ == '__main__':
 
     print("polling")
     app.run_polling(poll_interval=3)
-
