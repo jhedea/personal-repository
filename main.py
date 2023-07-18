@@ -36,7 +36,9 @@ cnx = mysql.connector.connect(
 )
 
 cursor = cnx.cursor()
-query = "INSERT INTO authors (name, url) VALUES (%s, %s)"
+query_select = "SELECT name FROM authors WHERE name = %s"
+query_insert = "INSERT INTO authors (name, url) VALUES (%s, %s)"
+query_update = "UPDATE authors SET url = %s WHERE name = %s"
 
 authors = [
     ("Charles Dickens", "https://example.com/charles-dickens"),
@@ -52,10 +54,23 @@ authors = [
 ]
 
 for author in authors:
-    cursor.execute(query, author)
+    name, url = author
+
+    # Check if the author already exists
+    cursor.execute(query_select, (name,))
+    existing_author = cursor.fetchone()
+
+    if existing_author:
+        # Update the URL for existing author
+        cursor.execute(query_update, (url, name))
+    else:
+        # Insert a new author
+        cursor.execute(query_insert, author)
 
 cnx.commit()
+greeting : str = "Hello! Can can I help you?"
 
+outlining : str = "Sure! Here is the most searched result : "
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cnx = mysql.connector.connect(
         host="localhost",
@@ -85,7 +100,9 @@ def handle_user_input(text: str) -> str:
         search_results = list(search(text))
         print(len(search_results))
         if search_results:
-            return f"Here is the link to the first search result: {author_url}"
+            if (author_url == "No URL found") == False:
+                return outlining + author_url
+            return author_url
     except Exception as e:
         print(f"An error occurred during the search: {e}")
 
