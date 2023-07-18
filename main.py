@@ -68,6 +68,32 @@ for author in authors:
         cursor.execute(query_insert, author)
 
 cnx.commit()
+
+
+
+cursor = cnx.cursor()
+query_insert = "INSERT INTO books (author_name, book_title) VALUES (%s, %s)"
+
+books = [
+    ("Charles Dickens", "Great Expectations"),
+    ("Charles Dickens", "A Tale of Two Cities"),
+    ("Jane Austen", "Pride and Prejudice"),
+    ("Jane Austen", "Sense and Sensibility"),
+    ("William Shakespeare", "Romeo and Juliet"),
+    ("William Shakespeare", "Hamlet"),
+    ("Mark Twain", "Adventures of Huckleberry Finn"),
+    ("Mark Twain", "The Adventures of Tom Sawyer")
+    # Add more book records as needed
+]
+
+for book in books:
+    cursor.execute(query_insert, book)
+
+cnx.commit()
+
+
+
+
 greeting : str = "Hello! Can can I help you?"
 
 outlining : str = "Sure! Here is the most searched result : "
