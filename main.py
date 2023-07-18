@@ -1,6 +1,9 @@
 from telegram import Update
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 from typing import Final
+
+from googlesearch import search
+
 """
 
 
@@ -18,7 +21,7 @@ def main():
 
 
 """
-token: Final = ">>>"
+token: Final = "6061354792:AAF7UHyG5gboTAKVU8aX8Vw9W9xUu1Bikaw"
 
 bot_username: Final = "@ioan_bot_bot"
 
@@ -36,13 +39,21 @@ async def custom_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 def handle_response(text: str) -> str:
-    processed:str = text.lower()
+    processed: str = text.lower()
     if "hello" in processed:
         return "Hi"
-    if "morometii" in processed:
+    elif "morometii" in processed:
         return "Este scris de Marin Preda"
-    if "moara cu noroc" in processed:
+    elif "moara cu noroc" in processed:
         return "ioan slavici"
+    else:
+        try:
+            search_results = list(search(text, num=1, stop=1, pause=2))
+            if search_results:
+                return f"Here is the link to the first search result: {search_results[0]}"
+        except Exception as e:
+            print(f"An error occurred during the search: {e}")
+
     return "I am sorry, can you repeat?"
 
 
