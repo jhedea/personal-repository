@@ -37,9 +37,25 @@ cnx = mysql.connector.connect(
 
 cursor = cnx.cursor()
 query = "INSERT INTO authors (name, url) VALUES (%s, %s)"
-values = ("Charles Dickens", "https://example.com/charles-dickens")
-cursor.execute(query, values)
+
+authors = [
+    ("Charles Dickens", "https://example.com/charles-dickens"),
+    ("Jane Austen", "https://example.com/jane-austen"),
+    ("William Shakespeare", "https://example.com/william-shakespeare"),
+    ("Mark Twain", "https://example.com/mark-twain"),
+    ("Leo Tolstoy", "https://example.com/leo-tolstoy"),
+    ("Emily Bronte", "https://example.com/emily-bronte"),
+    ("F. Scott Fitzgerald", "https://example.com/f-scott-fitzgerald"),
+    ("Virginia Woolf", "https://example.com/virginia-woolf"),
+    ("Ernest Hemingway", "https://example.com/ernest-hemingway"),
+    ("George Orwell", "https://example.com/george-orwell")
+]
+
+for author in authors:
+    cursor.execute(query, author)
+
 cnx.commit()
+
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     cnx = mysql.connector.connect(
         host="localhost",
